@@ -83,20 +83,20 @@ class SoundRecorder {
     return;
   }
 
-  /// Request an initialized recording instance to be [started]
+  /// Request an initialized recording instance to be [RecordingStatus.Recording]
   /// Once executed, audio recording will start working and
   /// a file will be generated in user's file system
   Future start() async {
     return _channel.invokeMethod('start');
   }
 
-  /// Request currently [Recording] recording to be [Paused]
+  /// Request currently [Recording] recording to be [RecordingStatus.Paused]
   /// Note: Use [current] to get latest state of recording after [pause]
   Future pause() async {
     return _channel.invokeMethod('pause');
   }
 
-  /// Request currently [Paused] recording to continue
+  /// Request currently [RecordingStatus.Paused] recording to continue
   Future resume() async {
     return _channel.invokeMethod('resume');
   }
