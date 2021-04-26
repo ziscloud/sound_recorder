@@ -1,10 +1,6 @@
 name: sound_recorder
 description: Flutter plugin that can support audio recording and level metering.
 version: 0.0.1
-author:
-  - wenyan <nik.lee.nyc@gmail.com>
-  - tao zhu <tao@zeno.group>
-  - Shunyun Wong <ziscloud@gmail.com>
 homepage: https://github.com/ziscloud/sound_recorder/
 
 environment:
