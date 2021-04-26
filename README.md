@@ -98,11 +98,11 @@ var current = await recording.current(channel: 0);
 You could use a timer to access details every 50ms(simply cancel the timer when recording is done)
 ```dart
 new Timer.periodic(tick, (Timer t) async {
-        var current = await recording.current(channel: 0);
-        // print(current.status);
-        setState(() {
-        });
-      });
+    var current = await recording.current(channel: 0);
+    // print(current.status);
+    setState(() {
+    });
+});
 ```
 
 ##### Recording
