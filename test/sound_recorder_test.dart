@@ -16,8 +16,5 @@ void main() {
   tearDown(() {
     channel.setMockMethodCallHandler(null);
   });
-
-  test('getPlatformVersion', () async {
-    expect(await SoundRecorder.platformVersion, '42');
-  });
 }
+

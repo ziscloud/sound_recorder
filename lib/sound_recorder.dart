@@ -5,14 +5,9 @@ import 'package:file/local.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as p;
 
+/// Sound Recorder Plugin
 class SoundRecorder {
-  static const MethodChannel _channel =
-      const MethodChannel('sound_recorder');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
+  static const MethodChannel _channel = const MethodChannel('sound_recorder');
   static const String DEFAULT_EXTENSION = '.m4a';
   static LocalFileSystem fs = LocalFileSystem();
 
@@ -22,7 +17,9 @@ class SoundRecorder {
   int _sampleRate;
 
   Future _initRecorder;
+
   Future get initialized => _initRecorder;
+
   Recording get recording => _recording;
 
   SoundRecorder(String path,
