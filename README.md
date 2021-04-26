@@ -27,7 +27,7 @@ add `sound_recorder` to your `pubspec.yaml`
 
 ## iOS Permission 
 1. Add usage description to plist 
-```
+```xml
 <key>NSMicrophoneUsageDescription</key>
 <string>Can We Use Your Microphone Please</string>
 ```
@@ -35,7 +35,7 @@ add `sound_recorder` to your `pubspec.yaml`
 
 ## Android Permission
 1. Add `uses-permission` to `./android/app/src/main/AndroidManifest.xml` in xml root level like below
-```
+```xml
     ...
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -55,25 +55,25 @@ add `sound_recorder` to your `pubspec.yaml`
 Recommended API Usage: `hasPermission` => `init` > `start` -> (`pause` <-> `resume`) * n -> `stop`, call `init` again before `start` another recording
 
 #### Always check permission first(it will request permission if permission has not been set to true/false yet, otherwise it will return the result of recording permission)
-```
+```dart
 bool hasPermission = await SoundRecorder.hasPermissions;
 ```
 
 #### `Initialize` (run this before `start`, so we could check if file with given name already exists)
-```
+```dart
 var recorder = SoundRecorder("file_path.mp4"); // .wav .aac .m4a
 await recorder.initialized;
 ```
 
 or 
 
-```
+```dart
 var recorder = SoundRecorder("file_path", audioFormat: AudioFormat.AAC); // or AudioFormat.WAV
 await recorder.initialized;
 ```
 
 ##### Sample Rate
-```
+```dart
 var recorder = SoundRecorder("file_path", audioFormat: AudioFormat.AAC, sampleRate: 22000); // sampleRate is 16000 by default
 await recorder.initialized;
 ```
@@ -85,18 +85,18 @@ await recorder.initialized;
 | WAV  | .wav  |
 
 #### Start recording
-```
+```dart
 await recorder.start();
 var recording = await recorder.current(channel: 0);
 ```
 
 #### Get recording details
-```
+```dart
 var current = await recording.current(channel: 0);
 // print(current.status);
 ```
 You could use a timer to access details every 50ms(simply cancel the timer when recording is done)
-```
+```dart
 new Timer.periodic(tick, (Timer t) async {
         var current = await recording.current(channel: 0);
         // print(current.status);
@@ -127,17 +127,17 @@ new Timer.periodic(tick, (Timer t) async {
 
 
 #### Pause
-```
+```dart
 await recorder.pause();
 ```
 
 #### Resume
-```
+```dart
 await recorder.resume();
 ```
 
 #### Stop (after `stop`, run `init` again to create another recording)
-```
+```dart
 var result = await recorder.stop();
 File file = widget.localFileSystem.file(result.path);
 ```
