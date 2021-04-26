@@ -10,22 +10,23 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sound_recorder/sound_recorder.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
-  return runApp(new MyApp());
+  return runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => new _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
+    return MaterialApp(
+      home: Scaffold(
         body: SafeArea(
-          child: new RecorderExample(),
+          child: RecorderExample(),
         ),
       ),
     );
@@ -39,7 +40,7 @@ class RecorderExample extends StatefulWidget {
       : this.localFileSystem = localFileSystem ?? LocalFileSystem();
 
   @override
-  State<StatefulWidget> createState() => new RecorderExampleState();
+  State<StatefulWidget> createState() => RecorderExampleState();
 }
 
 class RecorderExampleState extends State<RecorderExample> {
@@ -49,84 +50,81 @@ class RecorderExampleState extends State<RecorderExample> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _init();
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
-      child: new Padding(
-        padding: new EdgeInsets.all(8.0),
-        child: new Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
+                Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: new FlatButton(
-                      onPressed: () {
-                        switch (_currentStatus) {
-                          case RecordingStatus.Initialized:
-                            {
-                              _start();
-                              break;
-                            }
-                          case RecordingStatus.Recording:
-                            {
-                              _pause();
-                              break;
-                            }
-                          case RecordingStatus.Paused:
-                            {
-                              _resume();
-                              break;
-                            }
-                          case RecordingStatus.Stopped:
-                            {
-                              _init();
-                              break;
-                            }
-                          default:
-                            break;
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  onPressed: () {
+                    switch (_currentStatus) {
+                      case RecordingStatus.Initialized:
+                        {
+                          _start();
+                          break;
                         }
-                      },
-                      child: _buildText(_currentStatus),
-                      color: Colors.lightBlue,
-                    ),
-                  ),
-                  new FlatButton(
-                    onPressed:
-                    _currentStatus != RecordingStatus.Unset ? _stop : null,
-                    child:
-                    new Text("Stop", style: TextStyle(color: Colors.white)),
-                    color: Colors.blueAccent.withOpacity(0.5),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  new FlatButton(
-                    onPressed: onPlayAudio,
-                    child:
-                    new Text("Play", style: TextStyle(color: Colors.white)),
-                    color: Colors.blueAccent.withOpacity(0.5),
-                  ),
-                ],
+                      case RecordingStatus.Recording:
+                        {
+                          _pause();
+                          break;
+                        }
+                      case RecordingStatus.Paused:
+                        {
+                          _resume();
+                          break;
+                        }
+                      case RecordingStatus.Stopped:
+                        {
+                          _init();
+                          break;
+                        }
+                      default:
+                        break;
+                    }
+                  },
+                  child: _buildText(_currentStatus),
+                  style: TextButton.styleFrom(backgroundColor: Colors.lightBlue),
+                ),
               ),
-              new Text("Status : $_currentStatus"),
-              new Text('Avg Power: ${_current?.metering?.averagePower}'),
-              new Text('Peak Power: ${_current?.metering?.peakPower}'),
-              new Text("File path of the record: ${_current?.path}"),
-              new Text("Format: ${_current?.audioFormat}"),
-              new Text(
-                  "isMeteringEnabled: ${_current?.metering?.isMeteringEnabled}"),
-              new Text("Extension : ${_current?.extension}"),
-              new Text(
-                  "Audio recording duration : ${_current?.duration.toString()}")
-            ]),
+              TextButton(
+                onPressed:
+                    _currentStatus != RecordingStatus.Unset ? _stop : null,
+                child: Text("Stop", style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.blueAccent.withOpacity(0.5)),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              TextButton(
+                onPressed: onPlayAudio,
+                child: Text("Play", style: TextStyle(color: Colors.white)),
+                style: TextButton.styleFrom(
+                    backgroundColor: Colors.blueAccent.withOpacity(0.5)),
+              ),
+            ],
+          ),
+          Text("Status : $_currentStatus"),
+          Text('Avg Power: ${_current?.metering?.averagePower}'),
+          Text('Peak Power: ${_current?.metering?.peakPower}'),
+          Text("File path of the record: ${_current?.path}"),
+          Text("Format: ${_current?.audioFormat}"),
+          Text("isMeteringEnabled: ${_current?.metering?.isMeteringEnabled}"),
+          Text("Extension : ${_current?.extension}"),
+          Text("Audio recording duration : ${_current?.duration.toString()}")
+        ]),
       ),
     );
   }
@@ -164,8 +162,8 @@ class RecorderExampleState extends State<RecorderExample> {
           print(_currentStatus);
         });
       } else {
-        Scaffold.of(context).showSnackBar(
-            new SnackBar(content: new Text("You must accept permissions")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("You must accept permissions")));
       }
     } catch (e) {
       print(e);
@@ -181,7 +179,7 @@ class RecorderExampleState extends State<RecorderExample> {
       });
 
       const tick = const Duration(milliseconds: 50);
-      new Timer.periodic(tick, (Timer t) async {
+      Timer.periodic(tick, (Timer t) async {
         if (_currentStatus == RecordingStatus.Stopped) {
           t.cancel();
         }

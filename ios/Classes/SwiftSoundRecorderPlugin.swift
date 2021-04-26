@@ -65,16 +65,6 @@ public class SwiftSoundRecorderPlugin: NSObject, FlutterPlugin, AVAudioRecorderD
                 AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
             ]
 
-            var destinationUrl: URL!
-            do {
-                try destinationUrl = URL(string: mPath)
-            } catch {
-                let errorMessage = "Failed to initialize URL path from string: \(mPath)"
-                print(errorMessage)
-                result(FlutterError(code: "", message: errorMessage, details: error))
-                return
-            }
-
             do {
                 #if swift(>=4.2)
                     try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
@@ -82,7 +72,7 @@ public class SwiftSoundRecorderPlugin: NSObject, FlutterPlugin, AVAudioRecorderD
                     try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
                 #endif
                 try AVAudioSession.sharedInstance().setActive(true)
-                audioRecorder = try AVAudioRecorder(url: destinationUrl, settings: settings)
+                audioRecorder = try AVAudioRecorder(url: URL(string: mPath)!, settings: settings)
                 audioRecorder.delegate = self
                 audioRecorder.isMeteringEnabled = true
                 audioRecorder.prepareToRecord()
