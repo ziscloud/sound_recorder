@@ -56,25 +56,25 @@ Recommended API Usage: `hasPermission` => `init` > `start` -> (`pause` <-> `resu
 
 #### Always check permission first(it will request permission if permission has not been set to true/false yet, otherwise it will return the result of recording permission)
 ```
-bool hasPermission = await FlutterAudioRecorder.hasPermissions;
+bool hasPermission = await SoundRecorder.hasPermissions;
 ```
 
 #### `Initialize` (run this before `start`, so we could check if file with given name already exists)
 ```
-var recorder = FlutterAudioRecorder("file_path.mp4"); // .wav .aac .m4a
+var recorder = SoundRecorder("file_path.mp4"); // .wav .aac .m4a
 await recorder.initialized;
 ```
 
 or 
 
 ```
-var recorder = FlutterAudioRecorder("file_path", audioFormat: AudioFormat.AAC); // or AudioFormat.WAV
+var recorder = SoundRecorder("file_path", audioFormat: AudioFormat.AAC); // or AudioFormat.WAV
 await recorder.initialized;
 ```
 
 ##### Sample Rate
 ```
-var recorder = FlutterAudioRecorder("file_path", audioFormat: AudioFormat.AAC, sampleRate: 22000); // sampleRate is 16000 by default
+var recorder = SoundRecorder("file_path", audioFormat: AudioFormat.AAC, sampleRate: 22000); // sampleRate is 16000 by default
 await recorder.initialized;
 ```
 
