@@ -37,8 +37,8 @@ public class SwiftSoundRecorderPlugin: NSObject, FlutterPlugin, AVAudioRecorderD
                 recordingResult["duration"] = duration
                 recordingResult["path"] = mPath
                 recordingResult["audioFormat"] = mExtension
-                recordingResult["peakPower"] = audioRecorder.peakPower(forChannel: channel)
-                recordingResult["averagePower"] = audioRecorder.averagePower(forChannel: channel)
+                recordingResult["peakPower"] = pow(10.0, min(audioRecorder.peakPower(forChannel: channel), 0.0) / 20.0) * 120.0 - 120
+                recordingResult["averagePower"] = pow(10.0, min(audioRecorder.averagePower(forChannel: channel), 0.0) / 20.0) * 120.0 - 120
                 recordingResult["isMeteringEnabled"] = audioRecorder.isMeteringEnabled
                 recordingResult["status"] = status
                 result(recordingResult)
